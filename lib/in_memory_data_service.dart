@@ -5,6 +5,7 @@ import 'package:angular/angular.dart';
 import 'package:http/http.dart';
 import 'package:http/testing.dart';
 import 'src/hero.dart';
+
 @Injectable()
 class InMemoryDataService extends MockClient {
   static final _initialHeroes = [
@@ -21,13 +22,14 @@ class InMemoryDataService extends MockClient {
   ];
   static List<Hero> _heroesDb;
   static int _nextId;
+
   static Future<Response> _handler(Request request) async {
     if (_heroesDb == null) resetDb();
     var data;
     switch (request.method) {
       case 'GET':
         final id =
-        int.parse(request.url.pathSegments.last, onError: (_) => null);
+            int.parse(request.url.pathSegments.last, onError: (_) => null);
         if (id != null) {
           data = _heroesDb
               .firstWhere((hero) => hero.id == id); // throws if no match
@@ -60,11 +62,14 @@ class InMemoryDataService extends MockClient {
     return new Response(JSON.encode({'data': data}), 200,
         headers: {'content-type': 'application/json'});
   }
+
   static resetDb() {
     _heroesDb = _initialHeroes.map((json) => new Hero.fromJson(json)).toList();
     _nextId = _heroesDb.map((hero) => hero.id).fold(0, max) + 1;
   }
+
   static String lookUpName(int id) =>
       _heroesDb.firstWhere((hero) => hero.id == id, orElse: null)?.name;
+
   InMemoryDataService() : super(_handler);
 }
