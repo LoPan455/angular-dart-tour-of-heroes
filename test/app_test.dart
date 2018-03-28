@@ -9,8 +9,8 @@ import 'package:angular_app/app_component.dart';
 
 @AngularEntrypoint()
 void main() {
-  final testBed = new NgTestBed<AppComponent>();
-  NgTestFixture<AppComponent> fixture;
+  final testBed = new NgTestBed<HeroesComponent>();
+  NgTestFixture<HeroesComponent> fixture;
 
   setUp(() async {
     fixture = await testBed.create();
